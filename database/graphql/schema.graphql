@@ -1,0 +1,63 @@
+#import Mutations/*.graphql
+ 
+"""
+Sorrend
+Query
+Mutation
+User, Event
+"""
+type Query {
+    #User base queries
+    users: [User!]! @all
+    user(id: ID! @eq): User @find
+    userLike(name: String! @like): [User!]! @all
+    userPaginate(first: Int, page: Int): [User!]! @paginate
+    #Event base queries
+    events: [Event!]! @all
+    event(id: ID! @eq): Event @find
+    eventLike(title: String! @like): [Event!]! @all
+    eventWhere(id: ID! @where(operator: ">")): [Event!]! @all
+    eventPaginate(first: Int, page: Int): [Event!]! @paginate
+ 
+    # all registrations, excluding soft deleted ones
+    registrations: [Registration!]! @all
+
+    registration(id: ID! @eq): Registration @find
+    registrationHasMany(id: ID! @eq): Registration @find
+}
+
+ 
+type User {
+    "Unique primary key."
+    id: ID!
+ 
+    "Non-unique name."
+    name: String!
+ 
+    "Unique email address."
+    email: String!
+
+    events: [Event!]! @belongsToMany
+}
+ 
+ """
+ 1. modellben függvény
+ 2. typo-ot bővíted
+ 3. shema bővítése
+ 4. tesztelés
+ """
+type Event {
+    id: ID!
+    title: String!
+    registrations: [Registration!]! @hasMany
+}
+ 
+type Registration {
+    id: ID!
+    user_id: ID!
+    event_id: ID!
+    datetime: DateTime!
+    user: User! @belongsTo
+    event: Event! @belongsTo
+}
+ 

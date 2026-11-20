@@ -1,0 +1,6 @@
+type Mutation{
+    createEvent(title: String!): Event! @create
+    updateEvent(id: ID! @eq, title: String): Event! @update
+    #függöségek miatt nem lehet törölni
+    deleteEvent(id: ID! @eq): Event! @delete
+}
