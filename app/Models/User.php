@@ -33,4 +33,9 @@ class User extends Authenticatable
     public function events(){
         return $this->belongsToMany(Event::class, "registrations");
     }
+
+    public function ageCount(): int
+    {
+        return now()->year - $this->year_of_birth;
+    }
 }
